@@ -318,20 +318,61 @@ namespace CloudTechWidget
                 card.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromRgb(230, 233, 238));
             };
 
-            // クリックでブラウザ起動
+            // クリックでGoogle Chromeを優先して起動
             card.MouseLeftButtonDown += (s, e) => {
-                try
-                {
-                    Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
-                }
-                catch (Exception ex)
-                {
-                    System.Windows.MessageBox.Show("ブラウザを起動できませんでした: " + ex.Message);
-                }
+                OpenInChrome(url);
                 e.Handled = true;
             };
 
             return card;
+        }
+
+        private static void OpenInChrome(string url)
+        {
+            try
+            {
+                // Chromeの一般的なインストール先パス
+                var chromePaths = new[]
+                {
+                    @"C:\Program Files\Google\Chrome\Application\chrome.exe",
+                    @"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Google\Chrome\Application\chrome.exe")
+                };
+
+                foreach (var path in chromePaths)
+                {
+                    if (File.Exists(path))
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = path,
+                            Arguments = "\"" + url + "\"",
+                            UseShellExecute = false
+                        });
+                        return;
+                    }
+                }
+
+                // PATH上の chrome.exe を試行
+                try
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "chrome.exe",
+                        Arguments = "\"" + url + "\"",
+                        UseShellExecute = true
+                    });
+                    return;
+                }
+                catch { }
+
+                // Chromeが見つからない場合のフォールバック（既定ブラウザ）
+                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("ブラウザを開けませんでした: " + ex.Message);
+            }
         }
 
         private void SetupTrayIcon()
