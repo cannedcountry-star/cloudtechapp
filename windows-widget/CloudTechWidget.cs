@@ -1,12 +1,14 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using System.Windows.Media.Imaging;
 using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using Cursors = System.Windows.Input.Cursors;
@@ -32,6 +34,9 @@ namespace CloudTechWidget
         private NotifyIcon trayIcon;
         private bool isPinned = true;
         private TextBlock pinText;
+
+        // 公式CloudTechロゴ (Base64埋め込みでexe単体でも常に完全表示)
+        private const string LogoBase64 = "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAOWSURBVFhH7dZvbBNlHAdwVKImmviPqNEoODSwMNjqRlel68YGQwNuDIarwNAoiQbYFBYzCKIxZgkJMUNINIUeXa+l13Yb61rG2EaYRDvmQmcEHAsvMIQY0ASz9rn/N+5r+gJTn65hLeirft49v+/vd8ld7rnnZszIyspK0+XLJx5Sh1s/xM+Ox+nsfyGPOqvV4FpRDu9tTKzr18NP4+L+FxEbn5VYv2fk7z/L1Xo2fSOGv5qtRGxWADPjdeVkwwaFWz4kMItVyZ4P8YhRUH0rTsv9H6+hr3FXhJPbjVqg5qY0uHtZfA3gfslb5UGgCPAYELW9eoPYi6/EbAYJ/kWA3wDBX3uIvk7GADyQuBZ8q48gtBiK981j6pkvLAAeBnAf/9vxZ5XerZtl1nwVgXzE/NZ9iXMZi4799JR+/J0thKvaofQ1WtGxBGJX3R667zZy4/wzElfxCzgj5LOtuXSeFmHou+dlz9Jr6DSBOMwEHeXguVX9dB9tYoTJueVbAt63upXO0iJ4q1omuddATuyoAPCgOrjbLI98O4/um0rUUe4lzqXn6HpaYp7q/cS7lqXrqYgR+2x1YBunBup2isc27iLuyrN0z7RMXJ14YrLb+q4WWhfhA+/Z6DyV+A4RBxrNsm/lKNqLwXM1XXTPHUWDDW9Nei1/6t4yaN21+5RTuxbRPXcyCMwU3WUjt7yFGunZup7OUxJP7SnRPEYobHGUDB1cSOfp4IcP5GusAVKbieiXPM/ReZL4Xo6xy0bhXwgS2rKBzjMRc5SG0b4AfEfdTjpLoke+flllCsAfLpoA/niUzjNBuFUMuHng3ZWDdJZEGmgqgzsfUbvpWvxlovNMEPcbTrheAc9W/EpnSRBuma8wBRAZgypd4ubQeSaijtIxtM0FcVX+SGdJ4t98wpaPxR8ZaX972lsvlVhvc7XuNACuXAjttV/S+ZTk/qaVOFoEsHkQA/Wfxw+a25l+0ffkX+dsj/17YmrSBW6u7LL8jkNzILW9ruI8k0P3pMSHPnpfcxXHECiE4DBHBffyHrWzJiD1NnRJwwdeSuxVwi15GA/+8yOi6/ojk33bNkqs+TqYHIArBOne3JA4My3iBe4FNbSpWTpqYVXfCk7trv8EA81Jdy/2f1qvBevGZVfJELGbfiCM8SZ8BYBnPlTWJJHgB9vpmXuO9DXlaZ3VByW2ZJR3Wq5IrtIzWtC6V44cvrujOCvrv/Y3hBr9RxoK55MAAAAASUVORK5CYII=";
 
         public WidgetWindow()
         {
@@ -60,6 +65,28 @@ namespace CloudTechWidget
                     DragMove();
                 }
             };
+        }
+
+        private BitmapImage LoadLogoBitmap()
+        {
+            try
+            {
+                byte[] bytes = Convert.FromBase64String(LogoBase64);
+                using (var ms = new MemoryStream(bytes))
+                {
+                    var bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.StreamSource = ms;
+                    bitmap.EndInit();
+                    bitmap.Freeze();
+                    return bitmap;
+                }
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         private void BuildUI()
@@ -98,14 +125,34 @@ namespace CloudTechWidget
 
             // タイトル
             var titlePanel = new StackPanel { Orientation = Orientation.Horizontal };
-            var iconLabel = new TextBlock
+            
+            // ロゴ画像 (公式アイコン)
+            var logoBmp = LoadLogoBitmap();
+            if (logoBmp != null)
             {
-                Text = "☁",
-                FontSize = 18,
-                Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 153, 0)),
-                VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(0, 0, 8, 0)
-            };
+                var logoImg = new System.Windows.Controls.Image
+                {
+                    Source = logoBmp,
+                    Width = 22,
+                    Height = 22,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(0, 0, 8, 0)
+                };
+                titlePanel.Children.Add(logoImg);
+            }
+            else
+            {
+                var iconLabel = new TextBlock
+                {
+                    Text = "☁",
+                    FontSize = 18,
+                    Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 153, 0)),
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(0, 0, 8, 0)
+                };
+                titlePanel.Children.Add(iconLabel);
+            }
+
             var titleText = new TextBlock
             {
                 Text = "CloudTech",
@@ -114,7 +161,6 @@ namespace CloudTechWidget
                 Foreground = System.Windows.Media.Brushes.White,
                 VerticalAlignment = VerticalAlignment.Center
             };
-            titlePanel.Children.Add(iconLabel);
             titlePanel.Children.Add(titleText);
             Grid.SetColumn(titlePanel, 0);
             headerGrid.Children.Add(titlePanel);
@@ -292,10 +338,25 @@ namespace CloudTechWidget
         {
             trayIcon = new NotifyIcon
             {
-                Icon = SystemIcons.Application,
                 Text = "CloudTech Widget",
                 Visible = true
             };
+
+            // トレイアイコンに公式ロゴを適用
+            try
+            {
+                byte[] bytes = Convert.FromBase64String(LogoBase64);
+                using (var ms = new MemoryStream(bytes))
+                using (var bmp = new Bitmap(ms))
+                {
+                    IntPtr hIcon = bmp.GetHicon();
+                    trayIcon.Icon = System.Drawing.Icon.FromHandle(hIcon);
+                }
+            }
+            catch
+            {
+                trayIcon.Icon = SystemIcons.Application;
+            }
 
             var contextMenu = new ContextMenuStrip();
             contextMenu.Items.Add("ウィジェットを表示", null, (s, e) => {

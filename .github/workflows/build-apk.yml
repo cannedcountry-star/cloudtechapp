@@ -48,14 +48,15 @@ jobs:
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.0.0
-          name: "CloudTech App v1.0.0"
+          tag_name: v1.0.1
+          name: "CloudTech App v1.0.1"
           body: |
-            ## CloudTech Android App v1.0.0
+            ## CloudTech Android App v1.0.1
             
-            Android用のCloudTechクイックアクセス＆ホーム画面ウィジェットアプリです。
+            公式CloudTechロゴアイコンを適用した最新版です！
             
-            ### 提供機能:
+            ### 主な更新内容:
+            - **公式CloudTechアプリアイコン**: ホーム画面、ウィジェット、アプリ内ヘッダーに新デザインの公式ロゴアイコンを適用
             - **ホーム画面ウィジェット**: 1タップでCloudTech各機能へ直行
             - **Chrome Custom Tabs 連携**: Chromeのログイン状態・セッションを保持したまま高速表示
             - **4大アクセスリンク**:

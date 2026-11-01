@@ -52,7 +52,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/ic_launcher"
+                        android:src="@drawable/ic_cloudtech_logo"
                         android:contentDescription="@string/app_name" />
 
                     <LinearLayout
