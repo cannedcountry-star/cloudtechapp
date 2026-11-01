@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="shortcut_home"
+        android:enabled="true"
+        android:icon="@drawable/ic_cloud_home"
+        android:shortcutShortLabel="@string/title_home"
+        android:shortcutLongLabel="@string/title_home">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.cannedcountry.cloudtech"
+            android:targetClass="com.cannedcountry.cloudtech.OpenUrlActivity"
+            android:data="@string/url_home" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="shortcut_aws_course"
+        android:enabled="true"
+        android:icon="@drawable/ic_aws_course"
+        android:shortcutShortLabel="@string/title_aws_course"
+        android:shortcutLongLabel="@string/title_aws_course">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.cannedcountry.cloudtech"
+            android:targetClass="com.cannedcountry.cloudtech.OpenUrlActivity"
+            android:data="@string/url_aws_course" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="shortcut_cert_video"
+        android:enabled="true"
+        android:icon="@drawable/ic_cert_video"
+        android:shortcutShortLabel="@string/title_cert_video"
+        android:shortcutLongLabel="@string/title_cert_video">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.cannedcountry.cloudtech"
+            android:targetClass="com.cannedcountry.cloudtech.OpenUrlActivity"
+            android:data="@string/url_cert_video" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="shortcut_new_cert"
+        android:enabled="true"
+        android:icon="@drawable/ic_new_cert"
+        android:shortcutShortLabel="@string/title_new_cert"
+        android:shortcutLongLabel="@string/title_new_cert">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.cannedcountry.cloudtech"
+            android:targetClass="com.cannedcountry.cloudtech.OpenUrlActivity"
+            android:data="@string/url_new_cert" />
+    </shortcut>
+</shortcuts>

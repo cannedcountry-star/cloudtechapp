@@ -1,0 +1,18 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Background Circle -->
+    <path
+        android:fillColor="#232F3E"
+        android:pathData="M54,4 C81.614,4 104,26.386 104,54 C104,81.614 81.614,104 54,104 C26.386,104 4,81.614 4,54 C4,26.386 26.386,4 54,4 Z" />
+    <!-- Cloud Icon in Primary Orange -->
+    <path
+        android:fillColor="#FF9900"
+        android:pathData="M72.5,58 C71.7,58 71,58.2 70.3,58.5 C68.8,50.3 61.6,44 53,44 C46,44 39.9,48.2 37.3,54.3 C36.2,53.8 35.1,53.5 34,53.5 C28.2,53.5 23.5,58.2 23.5,64 C23.5,69.8 28.2,74.5 34,74.5 L72.5,74.5 C77.2,74.5 81,70.7 81,66 C81,61.3 77.2,58 72.5,58 Z" />
+    <!-- White small spark/star -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,26 L56,33 L63,35 L56,37 L54,44 L52,37 L45,35 L52,33 Z" />
+</vector>

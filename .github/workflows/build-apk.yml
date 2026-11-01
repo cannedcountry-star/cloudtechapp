@@ -1,0 +1,77 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant Execute Permission for Gradlew
+        run: chmod +x gradlew
+
+      - name: Build Debug & Release APK
+        run: ./gradlew assembleDebug assembleRelease --stacktrace
+
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: CloudTech-Debug-APK
+          path: app/build/outputs/apk/debug/*.apk
+
+      - name: Upload Release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: CloudTech-Release-APK
+          path: app/build/outputs/apk/release/*.apk
+
+      - name: Create GitHub Release (Optional on Push)
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.0
+          name: "CloudTech App v1.0.0"
+          body: |
+            ## CloudTech Android App v1.0.0
+            
+            Android用のCloudTechクイックアクセス＆ホーム画面ウィジェットアプリです。
+            
+            ### 提供機能:
+            - **ホーム画面ウィジェット**: 1タップでCloudTech各機能へ直行
+            - **Chrome Custom Tabs 連携**: Chromeのログイン状態・セッションを保持したまま高速表示
+            - **4大アクセスリンク**:
+              - CloudTech ホーム (`https://kws-cloud-tech.com/`)
+              - AWSコース一覧 (`https://kws-cloud-tech.com/courses/aws-course/`)
+              - 資格対策動画 (`https://kws-cloud-tech.com/lessons/cert-video-intro/`)
+              - 新資格対策コース (`https://kws-cloud-tech.com/courses/new-cert/`)
+            - **クイックショートカット**: アプリアイコン長押し対応
+            
+            ### インストール方法:
+            下記のアセットから `app-release.apk` または `app-debug.apk` をAndroid端末にダウンロードしてインストールしてください。
+          files: |
+            app/build/outputs/apk/release/*.apk
+            app/build/outputs/apk/debug/*.apk
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true

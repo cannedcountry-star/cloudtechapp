@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">CloudTech</string>
+    <string name="widget_name">CloudTech ショートカット</string>
+    <string name="widget_description">CloudTechの各コース・講義へワンタップで素早くアクセスできます</string>
+
+    <!-- URLs -->
+    <string name="url_home">https://kws-cloud-tech.com/</string>
+    <string name="url_aws_course">https://kws-cloud-tech.com/courses/aws-course/</string>
+    <string name="url_cert_video">https://kws-cloud-tech.com/lessons/cert-video-intro/</string>
+    <string name="url_new_cert">https://kws-cloud-tech.com/courses/new-cert/</string>
+
+    <!-- Titles -->
+    <string name="title_home">CloudTech ホーム</string>
+    <string name="desc_home">公式トップページ・マイページ</string>
+
+    <string name="title_aws_course">AWSコース一覧</string>
+    <string name="desc_aws_course">実践的なAWS学習カリキュラム</string>
+
+    <string name="title_cert_video">資格対策動画</string>
+    <string name="desc_cert_video">認定試験対策の動画講義</string>
+
+    <string name="title_new_cert">新資格対策コース</string>
+    <string name="desc_new_cert">最新のAWS認定試験対策コース</string>
+
+    <!-- UI Strings -->
+    <string name="header_title">CloudTech ポータル</string>
+    <string name="header_subtitle">学習コンテンツへスムーズにアクセス</string>
+    <string name="btn_open">開く</string>
+    <string name="section_quick_access">クイックアクセス</string>
+    <string name="section_widget_info">ホーム画面ウィジェット</string>
+    <string name="widget_guide_text">ホーム画面を長押しして「ウィジェット」を選択し、「CloudTech」を追加すると、ホーム画面から直接1タップで各ページを開けるようになります。</string>
+    <string name="btn_add_widget">ウィジェットをホーム画面に追加</string>
+    <string name="toast_widget_requested">ウィジェットの追加リクエストを送信しました</string>
+    <string name="toast_widget_not_supported">お使いのホームアプリはウィジェットのピン留めに対応していません。ホーム画面から手動で追加してください。</string>
+    <string name="open_mode_notice">※Chrome Custom Tabsで開くため、Chromeのログイン情報がそのまま引き継がれます。</string>
+</resources>
